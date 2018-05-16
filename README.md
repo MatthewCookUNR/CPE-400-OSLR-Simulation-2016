@@ -1,5 +1,5 @@
 # CPE400
-CPE400 Semester Project
+CPE 400 Final Project developed by Matthew Cook and Stefan Stukelja
 
 # Specifications
 OLSR‐based Wireless mesh network design with Raspberry Pies
