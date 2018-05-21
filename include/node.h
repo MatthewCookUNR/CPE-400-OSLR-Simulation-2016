@@ -7,6 +7,10 @@ using namespace std;
 
 class Node;
 
+/*------------------------------------------------
+Route class contains the properties of a route
+needed for the simulation
+--------------------------------------------------*/ 
 class Route
 {
 	public:
@@ -26,6 +30,10 @@ class Route
 		int MPRSequence;
 };
 
+/*------------------------------------------------
+Node class contains the the necessary functionality
+of a node to run the simulation.
+--------------------------------------------------*/ 
 class Node
 {
     public:

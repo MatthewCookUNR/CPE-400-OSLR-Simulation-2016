@@ -1,7 +1,9 @@
 #include "../include/node.h"
 #include <iostream>
 
-// Constructor for node class
+/*------------------------------------------------
+Constructor for node class
+--------------------------------------------------*/ 
 Node::Node(int ID)
 {
 	nodeID = ID;
@@ -10,7 +12,10 @@ Node::Node(int ID)
     oneHopNeighbor.clear();
 }
 
-//Deletes vector objects and frees the memory allocated
+/*------------------------------------------------
+Deletes vector objects and frees the memory 
+allocated
+--------------------------------------------------*/
 Node::~Node()
 {
 	for(unsigned int i = 0; i < (oneHopNeighbor.size()); i++)
@@ -27,31 +32,44 @@ Node::~Node()
 	twoHopNeighbor.shrink_to_fit();
 }
 
-// adds a node to the current node's one hop neighbor table
+/*------------------------------------------------
+Adds a node to the current node's one hop neighbor 
+table
+--------------------------------------------------*/
 void Node::addOneHopNeighbor(Node* neighbor)
 {
     oneHopNeighbor.push_back(neighbor);
 }
 
-// retrieves the size of the one hop neighbor table
+/*------------------------------------------------
+Retrieves the size of the one hop neighbor table
+--------------------------------------------------*/
 int Node::getOneHopNeighborNum()
 {
     return oneHopNeighbor.size();
 }
 
-// returns the desired node in the one hop neighbor table
+/*------------------------------------------------
+Returns the desired node in the one hop neighbor 
+table
+--------------------------------------------------*/
 Node* Node::getOneHopNeighbor(int index)
 {
     return oneHopNeighbor[index];
 }
 
-// returns the entire one hop neighbor table
+/*------------------------------------------------
+Returns the entire one hop neighbor table
+--------------------------------------------------*/
 vector<Node*> Node::getOneHopNeighbors()
 {
     return oneHopNeighbor;
 }
 
-// checks if the nodes is within the two hop neighbor table of the current node
+/*------------------------------------------------
+Checks if the node is within the two hop neighbor
+table of the given node
+--------------------------------------------------*/
 bool Node::inTwoHopTable(Node* neighbor)
 {
 	for(int i = 0; i < getTwoHopNeighborNum(); i++)
@@ -63,50 +81,66 @@ bool Node::inTwoHopTable(Node* neighbor)
 	}
 	return false;
 }
+/*------------------------------------------------
+Adds a node to the two hop neighbor table
+--------------------------------------------------*/
 
-// adds a node to the two hop neighbor table
 void Node::addTwoHopNeighbor(Node* neighbor)
 {
     twoHopNeighbor.push_back(neighbor);
 }
 
-// returns the size of the two hop neighbor table
+/*------------------------------------------------
+Returns the size of the two hop neighbor table
+--------------------------------------------------*/
 int Node::getTwoHopNeighborNum()
 {
     return twoHopNeighbor.size();
 }
 
-// returns the desired node in the two hop neighbor table
+/*------------------------------------------------
+Returns the desired node in the two hop neighbor table
+--------------------------------------------------*/
 Node* Node::getTwoHopNeighbor(int index)
 {
     return twoHopNeighbor[index];
 }
 
-// returns the entire two hop neighbor table
+/*------------------------------------------------
+Returns the entire two hop neighbor table
+--------------------------------------------------*/
 vector<Node*> Node::getTwoHopNeighbors()
 {
     return twoHopNeighbor;
 }
 
-// returns the id of the node
+/*------------------------------------------------
+Returns the id of the node
+--------------------------------------------------*/
 int Node::getNodeID()
 {
 	return nodeID;
 }
 
-// sets the MPR value of the node
+/*------------------------------------------------
+Sets the MPR value of the node
+--------------------------------------------------*/
 void Node::setMPR(bool flag)
 {
     MPR = flag;
 }
 
-// returns the MPR value of the node
+/*------------------------------------------------
+Returns the MPR value of the node
+--------------------------------------------------*/
 bool Node::getMPR()
 {
     return MPR;
 }
 
-// checks if the node has a neighboring MPR
+/*------------------------------------------------
+Checks if the node has a neighboring MPR
+--------------------------------------------------*/
 bool Node::neighboringMPR()
 {
     bool neighboringMPR = false;
@@ -120,7 +154,9 @@ bool Node::neighboringMPR()
     return neighboringMPR;
 }
 
-// checks if argument is a  one hop neighbor of the current node
+/*------------------------------------------------
+Checks if argument is a  one hop neighbor of the current node
+--------------------------------------------------*/
 bool Node::isOneHopNeighbor(Node* node)
 {
     for(unsigned int i = 0; i < oneHopNeighbor.size(); i++)
@@ -133,49 +169,65 @@ bool Node::isOneHopNeighbor(Node* node)
     return false;
 }
 
-// pushes a route onto the routing table
+/*------------------------------------------------
+Pushes a route onto the routing table
+--------------------------------------------------*/
 void Node::pushRoute(Route route)
 {
     routingTable.push_back(route);
 }
 
-// returns the desired route in the routing table
+/*------------------------------------------------
+Returns the desired route in the routing table
+--------------------------------------------------*/
 Route Node::getRoute(int routeNum)
 {
     return routingTable[routeNum];
 }
 
-// returns the size of the routing table
+/*------------------------------------------------
+Returns the size of the routing table
+--------------------------------------------------*/
 int Node::getTableSize()
 {
     return routingTable.size();
 }
 
-// returns the entire routing table
+/*------------------------------------------------
+Returns the routing table of the node
+--------------------------------------------------*/
 vector<Route> Node::getRoutingTable()
 {
 	return routingTable;
 }
 
-// returns the energy of the node
+/*------------------------------------------------
+Returns the energy of the node
+--------------------------------------------------*/
 int Node::getEnergy()
 {
 	return energy;
 }
 
-// decrements the energy of the node
+/*------------------------------------------------
+Decrements the energy of the node
+--------------------------------------------------*/
 void Node::losePower()
 {
 	energy = energy -10;
 }
 
-// removes the desired route from the routing table
+/*------------------------------------------------
+Removes the desired route from the routing table
+--------------------------------------------------*/
 void Node::removeRoute(int index)
 {
     routingTable.erase(routingTable.begin() + index);
 }
 
-// removes the desired node from the one hop neighbor table
+/*------------------------------------------------
+Removes the desired node from the one hop neighbor table
+--------------------------------------------------*/
 void Node::removeOneHopNeighbor(Node *node)
 {
     for(unsigned int i = 0; i < oneHopNeighbor.size(); i++)
@@ -187,14 +239,18 @@ void Node::removeOneHopNeighbor(Node *node)
     }
 }
 
-// clears the two hop neighbor table
+/*------------------------------------------------
+Clears the two hop neighbor table
+--------------------------------------------------*/
 void Node::clearTwoHop()
 {
     twoHopNeighbor.clear();
     twoHopNeighbor.shrink_to_fit();
 }
 
-// clears the routing table
+/*------------------------------------------------
+Clears the routing table
+--------------------------------------------------*/
 void Node::clearRoutingTable()
 {
     routingTable.clear();

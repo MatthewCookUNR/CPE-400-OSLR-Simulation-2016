@@ -6,9 +6,14 @@
 
 using namespace std;
 
+/*------------------------------------------------
+OLSR class contains the network of nodes and
+performs network operations
+--------------------------------------------------*/ 
 class OLSR
 {
     public:
+	
         OLSR();
         ~OLSR();
 		
@@ -23,6 +28,7 @@ class OLSR
 		void checkNetworkPower();
         void printRoutingTable();
         bool checkNodes();
+		
     private:
         vector<Node*> network;
 };

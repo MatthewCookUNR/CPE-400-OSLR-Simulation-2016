@@ -3,10 +3,12 @@
 
 using namespace std;
 
-void update(OLSR *network);
 void test(OLSR *network);
 void testEnergy(OLSR *network);
 
+/*------------------------------------------------
+Handles running the simulation
+--------------------------------------------------*/
 int main()
 {
     int testNum;
@@ -16,9 +18,10 @@ int main()
     cout << "Enter 3 to Print Routing Table" << endl;
     cin >> testNum;
 
+	// Initialize network
     OLSR *myNetwork = new OLSR();
 
-    // Build 2-Hop Neighbor Tables
+    // Builds 2-Hop Neighbor Tables
     for(int p = 0; p < myNetwork->getNumOfNodes(); p++)
     {
         myNetwork->broadcastHello(myNetwork->getNode(p));
@@ -26,7 +29,7 @@ int main()
 	
     myNetwork->topologyControl();
     
-    // Build routing table
+    // Builds routing table
     for(int i = 0; i < myNetwork->getNumOfNodes(); i++)
     {
         for(int j = 0; j < myNetwork->getNumOfNodes(); j++)
@@ -38,43 +41,34 @@ int main()
         }
     }
 
+	//Runs simulation without energy optimization
+	//in consideration. 
     if(testNum == 1)
     {
-	test(myNetwork);
+		test(myNetwork);
     }
+	
+	//Runs simulation with energy optimization
+	//in consideration. 
     if(testNum == 2)
     {
-	testEnergy(myNetwork);
+		testEnergy(myNetwork);
     }
+	
+	//Prints routing table
     if(testNum == 3)
     {
-	myNetwork->printRoutingTable();
+		myNetwork->printRoutingTable();
     }
    
     
     return 0;
 }
 
-void update(OLSR *network)
-{
-    for(int p = 0; p < network->getNumOfNodes(); p++)
-    {
-        network->broadcastHello(network->getNode(p));
-    }
-    network->topologyControl();
-
-    for(int i = 0; i < network->getNumOfNodes(); i++)
-    {
-        for(int j = 0; j < network->getNumOfNodes(); j++)
-        {
-            if(network->getNode(j) != network->getNode(i) && !(network->getNode(i)->isOneHopNeighbor(network->getNode(j))))
-		    {
-			    network->findRoute(network->getNode(i), NULL, network->getNode(i), network->getNode(j), 0);
-		    }
-        }
-    }
-}
-
+/*------------------------------------------------
+Simulates sending packets across the network and
+details remaining power of the nodes
+--------------------------------------------------*/
 void test(OLSR *network)
 {
     for(int i = 0; i < 3; i++)
@@ -89,6 +83,11 @@ void test(OLSR *network)
     }
 }    
 
+/*------------------------------------------------
+Simulates (with energy constraint) sending packets 
+across the network and details remaining power of 
+the nodes
+--------------------------------------------------*/
 void testEnergy(OLSR *network)
 {
     for(int i = 0; i < 3; i++)
