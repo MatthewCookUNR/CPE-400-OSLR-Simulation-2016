@@ -1,5 +1,5 @@
 # CPE400
-CPE 400 Final Project developed by Matthew Cook and Stefan Stukelja
+CPE 400 Final Project developed by Matthew Cook and Stefan Stukelja.
 Original github copy is from https://github.com/mattram6/CPE400
 
 # Specifications
