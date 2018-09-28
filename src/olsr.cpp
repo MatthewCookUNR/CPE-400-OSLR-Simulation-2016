@@ -1,5 +1,7 @@
 #include "../include/olsr.h"
 #include <iostream>
+#include <unistd.h>
+
 
 using namespace std;
 
@@ -9,33 +11,81 @@ connects them together.
 --------------------------------------------------*/
 OLSR::OLSR()
 {
-	pushNodes(12);
+	//Large Network (new)
+	pushNodes(19);
     network[0]->addOneHopNeighbor(network[1]);
-    network[0]->addOneHopNeighbor(network[3]);
-    network[0]->addOneHopNeighbor(network[5]);
     network[1]->addOneHopNeighbor(network[0]);
     network[1]->addOneHopNeighbor(network[2]);
-    network[1]->addOneHopNeighbor(network[9]);
     network[2]->addOneHopNeighbor(network[1]);
     network[2]->addOneHopNeighbor(network[3]);
-    network[3]->addOneHopNeighbor(network[0]);
+    network[2]->addOneHopNeighbor(network[4]);
     network[3]->addOneHopNeighbor(network[2]);
     network[3]->addOneHopNeighbor(network[4]);
+    network[3]->addOneHopNeighbor(network[5]);
+    network[3]->addOneHopNeighbor(network[18]);
+    network[4]->addOneHopNeighbor(network[2]);
     network[4]->addOneHopNeighbor(network[3]);
-    network[4]->addOneHopNeighbor(network[7]);
-    network[5]->addOneHopNeighbor(network[0]);
-    network[5]->addOneHopNeighbor(network[6]);
-    network[6]->addOneHopNeighbor(network[5]);
+    network[4]->addOneHopNeighbor(network[6]);
+    network[5]->addOneHopNeighbor(network[3]);
+    network[5]->addOneHopNeighbor(network[8]);
+    network[5]->addOneHopNeighbor(network[10]);
+    network[5]->addOneHopNeighbor(network[11]);
+    network[6]->addOneHopNeighbor(network[4]);
     network[6]->addOneHopNeighbor(network[7]);
-    network[7]->addOneHopNeighbor(network[4]);
     network[7]->addOneHopNeighbor(network[6]);
-    network[7]->addOneHopNeighbor(network[8]);
-    network[8]->addOneHopNeighbor(network[7]);
-    network[9]->addOneHopNeighbor(network[1]);
+    network[7]->addOneHopNeighbor(network[9]);
+    network[8]->addOneHopNeighbor(network[5]);
+    network[8]->addOneHopNeighbor(network[9]);
+    network[9]->addOneHopNeighbor(network[7]);
+    network[9]->addOneHopNeighbor(network[8]);
     network[9]->addOneHopNeighbor(network[10]);
+    network[10]->addOneHopNeighbor(network[5]);
     network[10]->addOneHopNeighbor(network[9]);
-    network[10]->addOneHopNeighbor(network[11]);
-    network[11]->addOneHopNeighbor(network[10]);
+    network[10]->addOneHopNeighbor(network[14]);
+    network[10]->addOneHopNeighbor(network[15]);
+    network[11]->addOneHopNeighbor(network[5]);
+    network[11]->addOneHopNeighbor(network[12]);
+    network[12]->addOneHopNeighbor(network[11]);
+    network[12]->addOneHopNeighbor(network[13]);
+    network[13]->addOneHopNeighbor(network[12]);
+    network[14]->addOneHopNeighbor(network[10]);
+    network[15]->addOneHopNeighbor(network[10]);
+    network[15]->addOneHopNeighbor(network[16]);
+    network[16]->addOneHopNeighbor(network[6]);
+    network[16]->addOneHopNeighbor(network[3]);
+    network[17]->addOneHopNeighbor(network[8]);
+    network[18]->addOneHopNeighbor(network[10]);
+
+	//Small Network(Old)
+	/*
+		pushNodes(12);
+		network[0]->addOneHopNeighbor(network[1]);
+		network[0]->addOneHopNeighbor(network[3]);
+		network[0]->addOneHopNeighbor(network[5]);
+		network[1]->addOneHopNeighbor(network[0]);
+		network[1]->addOneHopNeighbor(network[2]);
+		network[1]->addOneHopNeighbor(network[9]);
+		network[2]->addOneHopNeighbor(network[1]);
+		network[2]->addOneHopNeighbor(network[3]);
+		network[3]->addOneHopNeighbor(network[0]);
+		network[3]->addOneHopNeighbor(network[2]);
+		network[3]->addOneHopNeighbor(network[4]);
+		network[4]->addOneHopNeighbor(network[3]);
+		network[4]->addOneHopNeighbor(network[7]);
+		network[5]->addOneHopNeighbor(network[0]);
+		network[5]->addOneHopNeighbor(network[6]);
+		network[6]->addOneHopNeighbor(network[5]);
+		network[6]->addOneHopNeighbor(network[7]);
+		network[7]->addOneHopNeighbor(network[4]);
+		network[7]->addOneHopNeighbor(network[6]);
+		network[7]->addOneHopNeighbor(network[8]);
+		network[8]->addOneHopNeighbor(network[7]);
+		network[9]->addOneHopNeighbor(network[1]);
+		network[9]->addOneHopNeighbor(network[10]);
+		network[10]->addOneHopNeighbor(network[9]);
+		network[10]->addOneHopNeighbor(network[11]);
+		network[11]->addOneHopNeighbor(network[10]);
+	*/
 }
 
 /*------------------------------------------------
@@ -130,7 +180,6 @@ void OLSR::broadcastHello(Node* node)
     		}
 		}
     }
-	
 }
 
 /*------------------------------------------------
@@ -154,6 +203,7 @@ void OLSR::topologyControl()
         {
 			//Set that neighbor as a MPR
             network[i]->getOneHopNeighbor(0)->setMPR(true);
+			cout << i << " neighbor is a MPR" << endl;
         }
     }
 
@@ -175,6 +225,7 @@ void OLSR::topologyControl()
                     {
 						//Sets the node as a MPR
                         network[i]->setMPR(true);   
+						cout << i << " is a MPR" << endl;
 						break;
                     }
                 }
@@ -187,7 +238,8 @@ void OLSR::topologyControl()
 				        if((!network[i]->getTwoHopNeighbor(k)->neighboringMPR()))
 				        {
 							//Sets the node as a MPR
-		                    network[i]->setMPR(true);   
+		                    network[i]->setMPR(true); 
+							cout << i << " is a MPR" << endl;  
 				            break;
 				        }
 			        }
@@ -207,7 +259,9 @@ bool OLSR::findRoute(Node* origin, Node* prev, Node* src, Node* dest, int seqNum
 {
 	static Route routeBuild;
     bool found = false;
-
+	cout << src -> getNodeID() << endl;;
+	cout << src->isOneHopNeighbor(dest) << endl;
+	dest -> printOneHopNeighborhood();
 	if(src->isOneHopNeighbor(dest))
 	{
 		routeBuild.setDestMPR(src);
@@ -224,18 +278,21 @@ bool OLSR::findRoute(Node* origin, Node* prev, Node* src, Node* dest, int seqNum
 					//Returns false and doesn't add the longer route
                     return false;
                 }
-                else(routeBuild.getMPRSequence() < origin->getRoute(i).getMPRSequence())
+                else(routeBuild.getMPRSequence() < origin->getRoute(i).getMPRSequence());
                 {
 					//Removes the longer route
+					cout << "Segfault" << "2" << endl;
                     origin->removeRoute(i);
                 }
             }
         }
 		//Adds the new route to the routing table
-		origin->pushRoute(routeBuild);		
+		cout << "Segfault" << "3" << endl;
+		origin->pushRoute(routeBuild);
 	}
 	else
 	{
+		cout << "Segfault" << "4" << endl;
 		for(int i = 0; i < src->getOneHopNeighborNum(); i++)
 		{
 			//Checks to see if neighbor is a MPR, is not the previous node, and not the origin node
@@ -247,7 +304,11 @@ bool OLSR::findRoute(Node* origin, Node* prev, Node* src, Node* dest, int seqNum
                 }
                 seqNum++;
                 found = true;
+				int neighborFound = src->getOneHopNeighbor(i)->getNodeID();
+				cout << "Next MPR found:" << neighborFound << endl; 
+    			usleep(20000);                         
 				findRoute(origin, src, src->getOneHopNeighbor(i), dest, seqNum);
+				break;
 			}
 		}
 	}

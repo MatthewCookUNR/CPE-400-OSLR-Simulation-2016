@@ -41,6 +41,8 @@ class Node
         ~Node();
 		
 	    int getNodeID();
+		bool printOneHopNeighborhood();
+		bool printTwoHopNeighborhood();
 	    bool inTwoHopTable(Node* neighbor);
         bool isOneHopNeighbor(Node* node);
         vector<Node*> getOneHopNeighbors();

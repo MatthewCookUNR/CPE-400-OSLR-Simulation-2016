@@ -26,8 +26,10 @@ int main()
     {
         myNetwork->broadcastHello(myNetwork->getNode(p));
     }
+	cout << "Broadcast finishes" << endl;
 	
     myNetwork->topologyControl();
+	cout << "Topology Control finishes" << endl;
     
     // Builds routing table
     for(int i = 0; i < myNetwork->getNumOfNodes(); i++)
@@ -36,7 +38,9 @@ int main()
         {
             if(myNetwork->getNode(j) != myNetwork->getNode(i) && !(myNetwork->getNode(i)->isOneHopNeighbor(myNetwork->getNode(j))))
 		    {
+				cout << "find route from " << i << " to " << j << endl;
 			    myNetwork->findRoute(myNetwork->getNode(i), NULL, myNetwork->getNode(i), myNetwork->getNode(j), 0);
+
 		    }
         }
     }
