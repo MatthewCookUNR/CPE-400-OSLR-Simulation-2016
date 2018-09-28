@@ -196,17 +196,57 @@ as MPRs
 --------------------------------------------------*/
 void OLSR::topologyControl()
 {
+	int matchCounter;
+	int matchIndex;
+	vector<Node*> originTwoHopNeighbors;
+	vector<Node*> originOneHopNeighbors;
+	vector<Node*> tempOneHopNeighbors;
+	int twoHopNeighborNum;
+	int oneHopNeighborNum;
+	int tempOneHopNeighborNum;
+
     for(int i = 0; i < getNumOfNodes(); i++)
     {
-		//Checks if the node is isolated (only 1 neighbor)
-        if(network[i]->getOneHopNeighborNum() == 1)
-        {
-			//Set that neighbor as a MPR
-            network[i]->getOneHopNeighbor(0)->setMPR(true);
-			cout << i << " neighbor is a MPR" << endl;
-        }
-    }
+		originOneHopNeighbors = network[i] -> getOneHopNeighbors();
+		originTwoHopNeighbors = network[i] -> getTwoHopNeighbors();
+		twoHopNeighborNum = network[i] -> getTwoHopNeighborNum();
+		oneHopNeighborNum = network[i] -> getOneHopNeighborNum();
+		for(int j = 0; j < twoHopNeighborNum; j++)
+		{
+			matchCounter = 0;
+			tempOneHopNeighbors = originTwoHopNeighbors[j] -> getOneHopNeighbors();
+			tempOneHopNeighborNum = originTwoHopNeighbors[j] ->getOneHopNeighborNum();
+			for(int z = 0; z < oneHopNeighborNum; z++)
+			{
+				for(int p = 0; p < tempOneHopNeighborNum; p++)
+				{
+					if(originOneHopNeighbors[z] -> getNodeID() == tempOneHopNeighbors[p] -> getNodeID())
+					{
+						matchIndex = z;
+						matchCounter++;
+					}
+				}
+			}
+			if( matchCounter == 1 && originOneHopNeighbors[matchIndex] -> getMPR() == false)
+			{
+				originOneHopNeighbors[matchIndex] -> setMPR(true);
+				cout << originOneHopNeighbors[matchIndex] -> getNodeID() << " node is a MPR" << endl;
+			}
+		}
 
+		
+
+
+
+		//Checks if the node is isolated (only 1 neighbor)
+        //if(network[i]->getOneHopNeighborNum() == 1)
+       // {
+			//Set that neighbor as a MPR
+       //     network[i]->getOneHopNeighbor(0)->setMPR(true);
+		//	cout << i << " neighbor is a MPR" << endl;
+       // }
+    }
+/*
 	// Number of connections to check for
     int counter = 4;  
 	
@@ -248,7 +288,7 @@ void OLSR::topologyControl()
         }
         counter--;
     }
-
+*/
 }
 
 /*------------------------------------------------
