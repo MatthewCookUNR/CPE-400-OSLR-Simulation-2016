@@ -256,34 +256,3 @@ void Node::clearRoutingTable()
     routingTable.clear();
     routingTable.shrink_to_fit();
 }
-
-/*------------------------------------------------
-Prints list of one hop neighbors
---------------------------------------------------*/
-bool Node::printOneHopNeighborhood()
-{
-	int tempNodeID;
-	vector<Node*> tempNeighborhood = getOneHopNeighbors();
-	cout << "1 Hop neighbor table" << endl;
-	for( int i = 0; i < getOneHopNeighborNum(); i++)
-	{
-		tempNodeID = tempNeighborhood[i] -> getNodeID();
-		cout << tempNodeID << endl;
-	}
-	return true;
-}
-/*------------------------------------------------
-Prints list of two hop neighbors
---------------------------------------------------*/		
-bool Node::printTwoHopNeighborhood()
-{
-	int tempNodeID;
-	vector<Node*> tempNeighborhood = getTwoHopNeighbors();
-	cout << "2 Hop neighbor table" << endl;
-	for( int i = 0; i < getTwoHopNeighborNum(); i++)
-	{
-		tempNodeID = tempNeighborhood[i] -> getNodeID();
-		cout << tempNodeID << endl;
-	}
-	return true;
-}
